@@ -21,7 +21,7 @@ const RouteDetailPage = () => {
     <Layout>
       {/* Hero */}
       <section className="relative h-80 md:h-[450px] overflow-hidden">
-        <img src={route.image} alt={route.title} className="w-full h-full object-cover" />
+        <img src={route.image} alt={route.title} className="w-full h-full object-cover" decoding="async" fetchPriority="high" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -123,7 +123,7 @@ const RouteDetailPage = () => {
             {otherRoutes.map(r => (
               <Link key={r.id} to={`/routes/${r.id}`} className="group bg-card rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
                 <div className="overflow-hidden aspect-video">
-                  <img src={r.image} alt={r.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <img src={r.image} alt={r.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                 </div>
                 <div className="p-6">
                   <span className="text-xs uppercase tracking-wide text-primary font-semibold">{r.duration}</span>

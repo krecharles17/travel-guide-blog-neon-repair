@@ -38,7 +38,7 @@ const NewsletterSignup = ({ variant = "inline", backgroundImage }: NewsletterSig
         <div className="grid md:grid-cols-2">
           {/* Left: photo with overlay text */}
           <div className="relative h-64 md:h-auto min-h-[280px]">
-            <img src={backgroundImage} alt="Newsletter" className="absolute inset-0 w-full h-full object-cover" />
+            <img src={backgroundImage} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" />
             <div className="absolute inset-0 bg-earth-dark/60" />
             <div className="relative h-full flex items-center justify-center px-8">
               <h3 className="font-display text-3xl md:text-4xl font-bold text-primary-foreground italic leading-snug text-center">
@@ -86,7 +86,7 @@ const NewsletterSignup = ({ variant = "inline", backgroundImage }: NewsletterSig
   if (variant === "hero" && backgroundImage) {
     return (
       <section className="relative h-80 md:h-96 overflow-hidden rounded-lg">
-        <img src={backgroundImage} alt="Newsletter background" className="absolute inset-0 w-full h-full object-cover" />
+        <img src={backgroundImage} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" />
         <div className="absolute inset-0 bg-earth-dark/70" />
         <div className="relative h-full flex items-center justify-center px-4">
           <div className="text-center max-w-lg">

@@ -40,7 +40,7 @@ const ArticlePage = () => {
     <Layout>
       {/* Hero */}
       <section className="relative h-80 md:h-[450px] overflow-hidden">
-        <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
+        <img src={article.image} alt={article.title} className="w-full h-full object-cover" decoding="async" fetchPriority="high" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>

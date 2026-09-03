@@ -44,13 +44,17 @@ const Header = () => {
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
         {/* Left nav */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-6" aria-label="Primary navigation">
           <div
             className="relative"
             onMouseEnter={() => setMegaMenuOpen(true)}
             onMouseLeave={() => setMegaMenuOpen(false)}
           >
-            <button className="flex items-center gap-1 text-sm text-foreground/70 hover:text-foreground transition font-medium tracking-wide">
+            <button
+              className="flex items-center gap-1 text-sm text-foreground/70 hover:text-foreground transition font-medium tracking-wide"
+              aria-expanded={megaMenuOpen}
+              aria-label="Browse destinations"
+            >
               Destinations <ChevronDown className="w-3.5 h-3.5" />
             </button>
             <AnimatePresence>
@@ -121,7 +125,8 @@ const Header = () => {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-2 text-foreground/60"
-            aria-label="Menu"
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>

@@ -62,7 +62,7 @@ const CountryPage = () => {
     <Layout>
       {/* Photo hero */}
       <section className="relative h-[50vh] min-h-[350px] overflow-hidden">
-        <img src={country.heroImage} alt={country.name} className="w-full h-full object-cover" />
+        <img src={country.heroImage} alt={country.name} className="w-full h-full object-cover" decoding="async" fetchPriority="high" />
         <div className="absolute inset-0 bg-gradient-to-b from-foreground/30 via-foreground/10 to-foreground/50" />
 
         {/* Breadcrumb */}
@@ -108,6 +108,8 @@ const CountryPage = () => {
               return (
                 <button
                   key={cat}
+                  aria-pressed={isActive}
+                  aria-label={`${isActive ? "Clear" : "Filter by"} ${cat}`}
                   onClick={() => {
                     setActiveCategory(isActive ? null : cat);
                     setArticlePage(0);

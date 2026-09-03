@@ -33,7 +33,7 @@ const Routes = () => {
               className="grid md:grid-cols-2 gap-8 items-center"
             >
               <Link to={`/routes/${route.id}`} className={`rounded-2xl overflow-hidden shadow-lg ${i % 2 === 1 ? "md:order-2" : ""}`}>
-                <img src={route.image} alt={route.title} className="w-full h-72 object-cover hover:scale-105 transition-transform duration-500" />
+                <img src={route.image} alt={route.title} className="w-full h-72 object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
               </Link>
               <div>
                 <div className="flex items-center gap-3 mb-2">

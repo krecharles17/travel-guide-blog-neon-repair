@@ -37,6 +37,7 @@ const Shop = () => {
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
+                  decoding="async"
                 />
               </Link>
               <div className="p-6">
@@ -55,7 +56,10 @@ const Shop = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-foreground">€{product.price.toFixed(2)}</span>
-                  <button className="bg-primary text-primary-foreground px-3 py-2 rounded-lg font-semibold text-sm hover:opacity-90 transition inline-flex items-center gap-1.5">
+                  <button
+                    className="bg-primary text-primary-foreground px-3 py-2 rounded-lg font-semibold text-sm hover:opacity-90 transition inline-flex items-center gap-1.5"
+                    aria-label={`Add ${product.name} to cart`}
+                  >
                     <ShoppingCart className="w-4 h-4" /> Add
                   </button>
                 </div>

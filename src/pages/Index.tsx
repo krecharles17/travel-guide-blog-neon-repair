@@ -47,7 +47,7 @@ const Index = () => {
             key={i}
             className={`absolute inset-0 transition-opacity duration-1000 ${i === currentSlide ? "opacity-100" : "opacity-0"}`}
           >
-            <img src={slide.image} alt={slide.alt} className="w-full h-full object-cover" />
+            <img src={slide.image} alt={slide.alt} className="w-full h-full object-cover" decoding="async" fetchPriority="high" />
           </div>
         ))}
         <div className="absolute inset-0 bg-gradient-to-b from-foreground/40 via-foreground/20 to-foreground/50" />
@@ -142,7 +142,7 @@ const Index = () => {
                 >
                   <Link to={`/article/${article.id}`} className="group block bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow h-full">
                     <div className="aspect-[4/3] overflow-hidden">
-                      <img src={article.image} alt={article.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={article.image} alt={article.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     <div className="p-5">
                       <p className="text-[10px] uppercase tracking-[0.2em] text-primary mb-2 font-medium">{article.category}</p>

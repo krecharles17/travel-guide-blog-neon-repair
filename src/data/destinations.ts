@@ -60,7 +60,7 @@ export const filterAndPaginateArticles = (
 ) => {
   const filtered = category ? articles.filter((article) => article.category === category) : articles;
   const totalPages = Math.ceil(filtered.length / perPage);
-  const page = Math.min(Math.max(requestedPage, 0), Math.max(totalPages - 1, 0));
+  const page = Math.min(Math.max(requestedPage, 0), totalPages);
   return {
     articles: filtered.slice(page * perPage, (page + 1) * perPage),
     page,

@@ -31,7 +31,7 @@ const ProductDetailPage = () => {
             animate={{ opacity: 1, x: 0 }}
             className="rounded-2xl overflow-hidden shadow-lg"
           >
-            <img src={product.image} alt={product.name} className="w-full aspect-[4/3] object-cover" />
+            <img src={product.image} alt={product.name} className="w-full aspect-[4/3] object-cover" decoding="async" fetchPriority="high" />
           </motion.div>
 
           {/* Details */}
@@ -108,7 +108,7 @@ const ProductDetailPage = () => {
             {otherProducts.map(p => (
               <Link key={p.id} to={`/shop/${p.id}`} className="group bg-card rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
                 <div className="overflow-hidden aspect-[4/3]">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                 </div>
                 <div className="p-6">
                   <h3 className="font-display text-lg font-bold text-foreground mb-2">{p.name}</h3>

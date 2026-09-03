@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.sync_article_like_count() FROM PUBLIC, anon, authenticated;

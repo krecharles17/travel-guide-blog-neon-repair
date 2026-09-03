@@ -5,6 +5,7 @@ import type { AddressInfo } from "node:net";
 import { createApp } from "../../server/app";
 import type { DbClient } from "../../server/db";
 import { createIsolatedDb, hasDatabase, type IsolatedDb } from "../helpers/db";
+import { buildSeedData } from "../../db/seed/build";
 
 describe.skipIf(!hasDatabase())("server API (isolated database)", () => {
   let db: IsolatedDb;
@@ -43,13 +44,16 @@ describe.skipIf(!hasDatabase())("server API (isolated database)", () => {
     const { status, body } = await getJson<{
       continents: { id: string; slug: string; countries: never[] }[];
       countries: { id: string; continent_id: string }[];
-      articles: { id: string; country_id: string }[];
+      articles: { id: string; country_id: string; status: string }[];
     }>("/api/destinations");
     expect(status).toBe(200);
     expect(body.continents).toHaveLength(6);
     expect(body.countries).toHaveLength(60);
-    // 360 articles minus the 6 featured ones that stay out of the tree
-    expect(body.articles).toHaveLength(354);
+    const expected = buildSeedData().articles.filter(
+      (article) => article.status === "published" && article.is_featured === false,
+    );
+    expect(body.articles).toHaveLength(expected.length);
+    expect(body.articles.every((article) => article.status === "published")).toBe(true);
     const europe = body.continents.find((c) => c.slug === "europe");
     expect(europe).toBeDefined();
   });
@@ -81,6 +85,11 @@ describe.skipIf(!hasDatabase())("server API (isolated database)", () => {
 
   it("returns null for unknown articles", async () => {
     const { body } = await getJson<{ article: unknown }>("/api/articles/art-does-not-exist");
+    expect(body.article).toBeNull();
+  });
+
+  it("does not publish draft article details", async () => {
+    const { body } = await getJson<{ article: unknown }>("/api/articles/art-fr-006");
     expect(body.article).toBeNull();
   });
 

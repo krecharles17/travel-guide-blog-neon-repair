@@ -51,3 +51,19 @@ export const getCountryBySlug = (continents: Continent[], continentSlug: string,
 
 export const getAllArticles = (continents: Continent[]): Article[] =>
   continents.flatMap((c) => c.countries.flatMap((co) => co.articles));
+
+export const filterAndPaginateArticles = (
+  articles: Article[],
+  category: string | null,
+  requestedPage: number,
+  perPage: number,
+) => {
+  const filtered = category ? articles.filter((article) => article.category === category) : articles;
+  const totalPages = Math.ceil(filtered.length / perPage);
+  const page = Math.min(Math.max(requestedPage, 0), Math.max(totalPages - 1, 0));
+  return {
+    articles: filtered.slice(page * perPage, (page + 1) * perPage),
+    page,
+    totalPages,
+  };
+};

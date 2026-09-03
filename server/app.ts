@@ -5,7 +5,7 @@ import type { DbClient } from "./db";
 type Row = Record<string, unknown>;
 
 const ARTICLE_LIST_COLUMNS =
-  "id, country_id, title, excerpt, image, category, author, published_at, is_featured, like_count, view_count";
+  "id, country_id, title, excerpt, image, category, author, published_at, status, is_featured, like_count, view_count";
 
 const badRequest = (res: express.Response, message: string) => res.status(400).json({ error: message });
 
@@ -35,7 +35,7 @@ export const createApp = (db: DbClient, options: { staticDir?: string } = {}) =>
         db.query<Row>("SELECT * FROM continents ORDER BY sort_order, name"),
         db.query<Row>("SELECT * FROM countries ORDER BY sort_order, name"),
         db.query<Row>(
-          `SELECT ${ARTICLE_LIST_COLUMNS} FROM articles WHERE is_featured = false ORDER BY published_at DESC`,
+          `SELECT ${ARTICLE_LIST_COLUMNS} FROM articles WHERE status = 'published' AND is_featured = false ORDER BY published_at DESC`,
         ),
       ]);
       res.json({ continents: continents.rows, countries: countries.rows, articles: articles.rows });
@@ -48,7 +48,7 @@ export const createApp = (db: DbClient, options: { staticDir?: string } = {}) =>
       const filter = req.query.filter;
       if (filter === "featured") {
         const result = await db.query<Row>(
-          `SELECT ${ARTICLE_LIST_COLUMNS} FROM articles WHERE is_featured = true ORDER BY published_at DESC`,
+          `SELECT ${ARTICLE_LIST_COLUMNS} FROM articles WHERE status = 'published' AND is_featured = true ORDER BY published_at DESC`,
         );
         res.json({ articles: result.rows });
         return;
@@ -58,7 +58,7 @@ export const createApp = (db: DbClient, options: { staticDir?: string } = {}) =>
         const parsed = typeof limitRaw === "string" ? Number.parseInt(limitRaw, 10) : NaN;
         const limit = Number.isFinite(parsed) ? Math.min(Math.max(parsed, 1), 24) : 4;
         const result = await db.query<Row>(
-          `SELECT ${ARTICLE_LIST_COLUMNS} FROM articles ORDER BY view_count DESC, id LIMIT $1`,
+          `SELECT ${ARTICLE_LIST_COLUMNS} FROM articles WHERE status = 'published' ORDER BY view_count DESC, id LIMIT $1`,
           [limit],
         );
         res.json({ articles: result.rows });
@@ -71,7 +71,7 @@ export const createApp = (db: DbClient, options: { staticDir?: string } = {}) =>
   app.get(
     "/api/articles/:id",
     h(async (req, res) => {
-      const result = await db.query<Row>("SELECT * FROM articles WHERE id = $1", [req.params.id]);
+      const result = await db.query<Row>("SELECT * FROM articles WHERE id = $1 AND status = 'published'", [req.params.id]);
       res.json({ article: result.rows[0] ?? null });
     }),
   );

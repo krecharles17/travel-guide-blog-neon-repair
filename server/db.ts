@@ -38,7 +38,7 @@ export async function createDb(): Promise<DbClient> {
     const sql = neon(connectionString);
     return {
       async query<T = Record<string, unknown>>(text: string, params?: unknown[]) {
-        const rows = (await sql(text, (params ?? []) as never[])) as T[];
+        const rows = (await sql.query(text, params ?? [])) as T[];
         return { rows };
       },
       async close() {},

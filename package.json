@@ -19,7 +19,10 @@
     "db:seed": "tsx db/seed.ts",
     "db:corrupt": "tsx db/corrupt.ts",
     "db:repair": "tsx db/repair.ts",
-    "db:verify": "tsx db/verify-cli.ts"
+    "db:verify": "tsx db/verify-cli.ts",
+    "test:integration": "node scripts/require-database.mjs && vitest run tests/db tests/api tests/repair/verified-repair.test.ts",
+    "check": "npx tsc --noEmit && npm run lint && npm run build && vitest run src/test",
+    "test:e2e": "node scripts/require-database.mjs && playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

@@ -5,7 +5,7 @@ import { Sun, ArrowRight, Mountain, Waves, Flame, Camera, TreePine, Bird, Compas
 import Layout from "@/components/layout/Layout";
 import ArticleCard from "@/components/ArticleCard";
 import NewsletterSignup from "@/components/NewsletterSignup";
-import { getCountryBySlug, getContinentBySlug, months } from "@/data/destinations";
+import { filterAndPaginateArticles, getCountryBySlug, getContinentBySlug, months } from "@/data/destinations";
 import { useDestinations } from "@/hooks/useContent";
 import PageLoader from "@/components/PageLoader";
 import NotFound from "./NotFound";
@@ -53,15 +53,8 @@ const CountryPage = () => {
   if (isLoading) return <PageLoader />;
   if (!country) return <NotFound />;
 
-  const filteredArticles = activeCategory
-    ? country.articles.filter((a) => a.category === activeCategory)
-    : country.articles;
-
-  const totalPages = Math.ceil(filteredArticles.length / ARTICLES_PER_PAGE);
-  const paginatedArticles = filteredArticles.slice(
-    articlePage * ARTICLES_PER_PAGE,
-    (articlePage + 1) * ARTICLES_PER_PAGE
-  );
+  const { articles: paginatedArticles, page: currentArticlePage, totalPages } =
+    filterAndPaginateArticles(country.articles, activeCategory, articlePage, ARTICLES_PER_PAGE);
 
   const siblingCountries = continent?.countries.filter((c) => c.slug !== country.slug) || [];
 
@@ -115,7 +108,10 @@ const CountryPage = () => {
               return (
                 <button
                   key={cat}
-                  onClick={() => setActiveCategory(isActive ? null : cat)}
+                  onClick={() => {
+                    setActiveCategory(isActive ? null : cat);
+                    setArticlePage(0);
+                  }}
                   className="flex flex-col items-center gap-2 group"
                 >
                   <div className={`w-16 h-16 rounded-full border-2 flex items-center justify-center transition-all ${
@@ -195,7 +191,7 @@ const CountryPage = () => {
                   key={i}
                   onClick={() => setArticlePage(i)}
                   className={`w-8 h-8 rounded-full text-xs font-semibold border transition-all ${
-                    i === articlePage
+                    i === currentArticlePage
                       ? "bg-primary text-primary-foreground border-primary"
                       : "bg-card text-muted-foreground border-border hover:border-primary"
                   }`}
